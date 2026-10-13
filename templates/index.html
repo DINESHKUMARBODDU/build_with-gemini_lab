@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>DataPilot: ask your data</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%235b5bf0'/%3E%3Cpath d='M8 21l5-6 4 3 7-9' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body data-mode="{{ mode }}">
+  <div class="shell" id="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l5-6 4 3 7-9"/></svg>
+        </span>
+        <div><strong>DataPilot</strong><small>Ask your data in plain English</small></div>
+      </div>
+      <button class="btn primary block" id="new-chat" type="button">+ New chat</button>
+
+      <section>
+        <h2>Try asking</h2>
+        <div class="samples" id="samples"></div>
+      </section>
+      <section>
+        <h2>Database</h2>
+        <div id="schema" class="schema"><p class="muted small">Loading schema…</p></div>
+      </section>
+
+      <div class="side-foot">
+        <span class="badge" id="mode-badge">{{ 'Demo mode' if mode == 'demo' else 'Live · Gemini' }}</span>
+        <button class="icon-btn" id="theme" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+        </button>
+      </div>
+    </aside>
+    <div class="scrim" id="scrim"></div>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn menu" id="menu" type="button" aria-label="Open sidebar">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <h1>Sales analytics assistant</h1>
+        <span class="badge" id="mode-badge-top">{{ 'Demo mode' if mode == 'demo' else 'Live' }}</span>
+      </header>
+
+      <div class="scroll" id="scroll">
+        <div class="thread" id="thread" aria-live="polite">
+          <section class="welcome" id="welcome">
+            <div class="hero-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l5-6 4 3 7-9"/></svg>
+            </div>
+            <h2>Ask your data anything</h2>
+            <p class="muted">DataPilot writes the SQL, runs it, and shows you the answer as a table and a chart.</p>
+            <div class="chips" id="stats"></div>
+            <div class="cards" id="cards"></div>
+          </section>
+        </div>
+      </div>
+
+      <form class="composer" id="composer" autocomplete="off">
+        <div class="composer-box">
+          <textarea id="question" rows="1" maxlength="500" placeholder="Ask a question about sales, customers or products…" aria-label="Your question"></textarea>
+          <span class="counter" id="counter" hidden></span>
+          <button class="send" id="send" type="submit" aria-label="Send" disabled>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          </button>
+        </div>
+        <p class="hint">Enter to send · Shift+Enter for a new line · Queries are read-only</p>
+      </form>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
